@@ -1,0 +1,3 @@
+debian/files
+debian/munin-plugins-rabbitmq
+debian/munin-plugins-rabbitmq*

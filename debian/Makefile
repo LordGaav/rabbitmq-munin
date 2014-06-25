@@ -1,6 +1,11 @@
 KEY=CD9C0E84
 DIST=trusty
 
+clean:
+	rm -vf debian/files
+	rm -vfr debian/munin-plugins-rabbitmq
+	rm -vf debian/munin-plugins-rabbitmq*
+
 package:
 	dpkg-buildpackage -A -us -uc
  
