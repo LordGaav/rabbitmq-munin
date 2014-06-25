@@ -1,0 +1,5 @@
+munin-plugins-rabbitmq (0.1) RELEASE; urgency=medium
+
+  * Based on upstream commit cd4ba7a715cd908e17a3f904332ff39dc70b50ba
+
+ -- Nick Douma <n.douma@nekoconeko.nl>  Fri, 25 Jun 2014 16:00:00 +0200

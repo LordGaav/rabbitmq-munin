@@ -1,0 +1,2 @@
+rabbitmq_* /usr/share/munin-rabbitmq/plugins/
+rabbitmq*.conf /etc/munin/plugin-conf.d/

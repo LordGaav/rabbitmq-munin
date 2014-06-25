@@ -1,0 +1,12 @@
+Source: munin-plugins-rabbitmq
+Section: net
+Priority: optional
+Maintainer: Nick Douma <n.douma@nekoconeko.nl>
+Build-Depends: debhelper (>= 9)
+Standards-Version: 3.9.5
+
+Package: munin-plugins-rabbitmq
+Architecture: all
+Depends: ${shlibs:Depends}, munin-node | munin-node-cyso, rabbitmq-server
+Description: RabbitMQ Munin Plug-Ins
+ Munin plugins to gather statistics about RabbitMQ.
