@@ -1,11 +1,12 @@
 #!/bin/sh
-# 
+#
 # Plugin to monitor the queues of a virtual_host in RabbitMQ
 #
 # Usage: Link or copy into /etc/munin/node.d/
 #
 # Parameters
 #     env.vhost <AMQ virtual host>
+#     env.filter <filter out all lines containing this word>
 #     env.queue_warn <warning queuesize>
 #     env.queue_crit <critical queuesize>
 #
@@ -26,20 +27,25 @@ if [ "$1" = "autoconf" ]; then
 fi
 
 # If run with the "config"-parameter, give out information on how the
-# graphs should look. 
+# graphs should look.
 
 HOME=/tmp/
 VHOST=${vhost:-"/"}
-QUEUES=$(HOME=$HOME rabbitmqctl list_queues -p $VHOST name | \
-		grep -v '^Listing' | \
-		grep -v 'done\.$' | sed -e 's/[.=-]/_/g' )
- 
+FILTER=${filter:-""}
+
 if [ "$1" = "config" ]; then
-        QUEUE_WARN=${queue_warn:-10000}
-        QUEUE_CRIT=${queue_crit:-20000}
+	QUEUE_WARN=${queue_warn:-10000}
+	QUEUE_CRIT=${queue_crit:-20000}
 
 	# The host name this plugin is for. (Can be overridden to have
 	# one machine answer for several)
+
+	QUEUES=$(HOME=$HOME rabbitmqctl list_queues -p $VHOST name | \
+			grep -v '^Listing' | grep -v 'done\.$' | sed -e 's/[.=-]/_/g' )
+
+	if [ -n "$FILTER" ]; then
+		QUEUES=$(echo "$QUEUES" | grep -v "$FILTER")
+	fi
 
 	# The title of the graph
 	echo "graph_title RabbitMQ $VHOST Uncommitted Messages"
@@ -70,4 +76,10 @@ fi
 # real work - i.e. display the data. Almost always this will be
 # "value" subfield for every data field.
 
-HOME=$HOME rabbitmqctl list_channels name vhost messages_uncommitted | grep -v "\.\.\." | grep $VHOST | sed "s/[ ]->.*[\t]/.value /g"
+QUEUES=$(HOME=$HOME rabbitmqctl list_channels name vhost messages_uncommitted | \
+		grep -v "\.\.\." | grep $VHOST | sed "s/[ ]->.*[\t]/.value /g")
+
+if [ -n "$FILTER" ]; then
+	QUEUES=$(echo "$QUEUES" | grep -v "$FILTER")
+fi
+echo "$QUEUES"

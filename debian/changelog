@@ -1,3 +1,9 @@
+munin-plugins-rabbitmq (0.2) RELEASE; urgency=medium
+
+  * Allow for configuring a filter, to limit the returned queues.
+
+ -- Nick Douma <n.douma@nekoconeko.nl>  Fri, 29 Jul 2016 17:30:00 +0200
+
 munin-plugins-rabbitmq (0.1) RELEASE; urgency=medium
 
   * Based on upstream commit cd4ba7a715cd908e17a3f904332ff39dc70b50ba
